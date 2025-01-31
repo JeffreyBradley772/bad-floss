@@ -44,15 +44,6 @@ export default function SignInForm({ providers }: { providers: any }) {
         </button>
       </form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300" />
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">Or continue with</span>
-        </div>
-      </div>
-
       <div className="grid gap-3">
         {Object.values(providers || {}).map(
           (provider: any) =>
@@ -89,10 +80,6 @@ export default function SignInForm({ providers }: { providers: any }) {
             )
         )}
       </div>
-
-      <p className="text-xs text-center text-gray-600 mt-8">
-        By signing in, you agree to our Terms of Service and Privacy Policy
-      </p>
     </div>
   );
 }
