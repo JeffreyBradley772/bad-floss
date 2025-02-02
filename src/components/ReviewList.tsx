@@ -1,20 +1,23 @@
 import { StarIcon } from '@heroicons/react/20/solid';
 import { getApiUrl } from '@/lib/utils';
+import { mockReviews } from '@/lib/mockData';
 
 async function getReviews() {
-  try {
-    const res = await fetch(getApiUrl('/api/reviews'), { 
-      cache: 'no-store',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching reviews:', error);
-    return [];
-  }
+  // Comment out the API call for now and return mock data
+  // try {
+  //   const res = await fetch(getApiUrl('/api/reviews'), { 
+  //     cache: 'no-store',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   if (!res.ok) return [];
+  //   return res.json();
+  // } catch (error) {
+  //   console.error('Error fetching reviews:', error);
+  //   return [];
+  // }
+  return mockReviews;
 }
 
 export default async function ReviewList() {
