@@ -1,4 +1,30 @@
-export const mockBrands = [
+interface Brand {
+  id: string;
+  name: string;
+  company: string;
+  averageRating: number;
+  totalReviews: number;
+  description: string;
+  price: string;
+  type: string;
+  imageUrl: string | null;
+  reviews: Review[];
+}
+
+interface Review {
+  id: string;
+  userId: string;
+  rating: number;
+  title: string;
+  content: string;
+  pros: string[];
+  cons: string[];
+  userName: string;
+  createdAt: Date;
+}
+
+
+export const mockBrands: Brand[] = [
   {
     id: '1',
     name: 'FlossMaster 3000',
@@ -19,7 +45,7 @@ export const mockBrands = [
         pros: ['Nice mint flavor', 'Attractive packaging'],
         cons: ['Shreds easily', 'Leaves fragments between teeth', 'Expensive for what it is'],
         userName: 'Disappointed Dentist',
-        createdAt: '2025-01-15T08:30:00Z'
+        createdAt: new Date('2025-01-15T08:30:00Z')
       }
     ]
   },
@@ -43,7 +69,7 @@ export const mockBrands = [
         pros: ['Doesn\'t break', 'Comfortable grip', 'No squeaky noise', 'Actually glides'],
         cons: ['A bit pricey', 'Could be mintier'],
         userName: 'FlossEnthusiast',
-        createdAt: '2025-01-20T15:45:00Z'
+        createdAt: new Date('2025-01-20T15:45:00Z')
       }
     ]
   },
@@ -67,7 +93,7 @@ export const mockBrands = [
         pros: ['Convenient size', 'Good for travel'],
         cons: ['Breaks easily', 'Wasteful', 'Poor quality plastic', 'Expensive per use'],
         userName: 'BrokenFlossCollector',
-        createdAt: '2025-01-25T12:20:00Z'
+        createdAt: new Date('2025-01-25T12:20:00Z')
       }
     ]
   },
@@ -91,7 +117,7 @@ export const mockBrands = [
         pros: ['Very strong mint flavor', 'Good thickness', 'Durable'],
         cons: ['Overwhelming mint', 'Can\'t taste food after', 'Expensive'],
         userName: 'MintOverload',
-        createdAt: '2025-01-28T09:15:00Z'
+        createdAt: new Date('2025-01-28T09:15:00Z')
       }
     ]
   },
@@ -115,7 +141,7 @@ export const mockBrands = [
         pros: ['Eco-friendly', 'Sustainable packaging', 'Good intentions'],
         cons: ['Too rough', 'Hurts gums', 'Feels like twine'],
         userName: 'EcoWarrior',
-        createdAt: '2025-02-01T14:30:00Z'
+        createdAt: new Date('2025-02-01T14:30:00Z')
       }
     ]
   }
