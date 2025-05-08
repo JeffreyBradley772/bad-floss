@@ -1,9 +1,10 @@
 'use client';
 
 import { signIn } from "next-auth/react";
+import type { ClientSafeProvider } from "next-auth/react";
 import { useState } from "react";
 
-export default function SignInForm({ providers }: { providers: any }) {
+export default function SignInForm({ providers }: { providers: Record<string, ClientSafeProvider> | null }) {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -46,7 +47,7 @@ export default function SignInForm({ providers }: { providers: any }) {
 
       <div className="grid gap-3">
         {Object.values(providers || {}).map(
-          (provider: any) =>
+          (provider) =>
             provider.id !== "email" && (
               <button
                 key={provider.id}

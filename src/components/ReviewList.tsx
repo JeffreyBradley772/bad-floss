@@ -1,80 +1,87 @@
-import { StarIcon } from '@heroicons/react/20/solid';
-import { mockBrands } from '@/lib/mockData';
-import Link from 'next/link';
+"use client"
+import { useRef, useState, useEffect } from 'react';
+import ProductCard from './ProductCard';
+import FadeInWrapper from './ui/FadeInWrapper';
 
-async function getBrands() {
-  // In the future, this will fetch from the API
-  return mockBrands;
-}
+// Define a serialized version of FlossProduct
+type SerializedProduct = {
+  id: string;
+  name: string;
+  brand: string;
+  description: string | null;
+  type: string;
+  price: number | null;
+  imageUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
 
-export default async function ReviewList() {
-  const brands = await getBrands();
+type ReviewListProps = {
+  initialProducts: SerializedProduct[];
+};
 
-  if (brands.length === 0) {
-    return (
-      <div className="text-center py-10 text-gray-500">
-        <p>No floss brands reviewed yet. Be the first to share your experience!</p>
-      </div>
-    );
+export default function ReviewList({ initialProducts }: ReviewListProps) {
+  const [products, setProducts] = useState(initialProducts);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [skipProducts, setSkipProducts] = useState(initialProducts.length);
+  const [hasMoreProducts, setHasMoreProducts] = useState(true);
+
+  const loadMorePointRef = useRef<HTMLDivElement>(null);
+
+  const loadMoreProducts = async () => {
+    if (isLoadingProducts || !hasMoreProducts) return;
+
+    setIsLoadingProducts(true);
+    try {
+      const response = await fetch(`/api/products/?skipProducts=${skipProducts}&takeProducts=10`);
+      const data = await response.json();
+      if (Array.isArray(data.products) || data.product.length > 0) {
+        setProducts((prev) => [...prev, ...data.products]);
+        setSkipProducts((prev) => prev + data.products.length);
+        setHasMoreProducts(data.pagination.hasMoreProducts);
+      } else {
+        setHasMoreProducts(false);
+      }
+
+    } catch (error) {
+      console.error("Error loading more products:", error);
+    } finally {
+      setIsLoadingProducts(false);
+    }
   }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !isLoadingProducts && hasMoreProducts) {
+        loadMoreProducts();
+      }
+    }, {
+      threshold: 0.5,
+    });
+
+    if (loadMorePointRef.current) {
+      observer.observe(loadMorePointRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    }
+
+  }, [hasMoreProducts, isLoadingProducts, skipProducts])
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {brands.map((brand) => (
-        <Link 
-          key={brand.id}
-          href={`/floss/${brand.id}`}
-          className="block transition-transform hover:scale-105"
-        >
-          <div className="bg-white shadow-lg rounded-lg p-6 h-full">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h2 className="text-xl font-bold mb-1">{brand.name}</h2>
-                <p className="text-sm text-gray-600">{brand.company}</p>
-              </div>
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                {brand.type}
-              </span>
-            </div>
-
-            <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-              {brand.description}
-            </p>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <StarIcon
-                      key={i}
-                      className={`h-5 w-5 ${
-                        i < Math.round(brand.averageRating)
-                          ? 'text-yellow-400'
-                          : 'text-gray-200'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="ml-2 text-sm text-gray-600">
-                  {brand.averageRating.toFixed(1)}
-                </span>
-              </div>
-              <span className="text-sm text-gray-500">
-                {brand.totalReviews} reviews
-              </span>
-            </div>
-
-            <div className="mt-4 flex justify-between items-center">
-              <span className="text-lg font-semibold text-blue-600">
-                {brand.price}
-              </span>
-              <span className="text-sm text-blue-600">
-                View Details →
-              </span>
-            </div>
-          </div>
-        </Link>
+      {products.map((product) => (
+        <FadeInWrapper key={product.id}>
+            <ProductCard product={product} />
+        </FadeInWrapper>
       ))}
+      {hasMoreProducts && (
+        <div ref={loadMorePointRef} className="col-span-full h-20 flex items-center justify-center">
+          {isLoadingProducts ? 'Loading more products...' : ''}
+        </div>
+      )}
     </div>
   );
 }

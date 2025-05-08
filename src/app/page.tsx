@@ -4,10 +4,26 @@ import CreateReviewForm from '@/components/CreateReviewForm';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { SparklesCore, ParticlesProps } from '@/components/ui/sparkles';
-import { GradientLine } from '@/components/ui/GradientLine'
+import { GradientLine } from '@/components/ui/GradientLine';
+import { prisma } from '@/lib/prisma';
+import { FlossProduct } from '@prisma/client';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
+  
+  // Fetch products directly in the server component - get initial 20 for first page
+  const rawProducts = await prisma.flossProduct.findMany({
+    take: 20,
+    orderBy: { createdAt: 'desc' }
+  });
+  
+  // Serialize the products to handle Decimal and Date objects
+  const products = rawProducts.map(product => ({
+    ...product,
+    price: product.price ? parseFloat(product.price.toString()) : null,
+    createdAt: product.createdAt.toISOString(),
+    updatedAt: product.updatedAt.toISOString()
+  }));
 
   const sparkleProps: ParticlesProps = {
     id: 'background-sparkles',
@@ -20,7 +36,7 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8 relative min-h-screen">
-      <div className="absolute inset-0 w-full h-full overflow-hidden -z-10">
+      <div className="absolute inset-0 mx-auto w-full h-full overflow-hidden -z-10">
         <SparklesCore {...sparkleProps} />
       </div>
       <div className="relative z-10">
@@ -32,16 +48,16 @@ export default async function Home() {
           <div className="prose prose-lg mx-auto text-gray-600">
             <p className="mb-4">
               Have you ever been betrayed by floss that shreds into a million pieces?
-              Or those "convenient" floss sticks that snap at the worst possible moment?
-              You're not alone.
+              Or those &quot;convenient&quot; floss sticks that snap at the worst possible moment?
+              You&apos;re not alone.
             </p>
             <p className="mb-4">
-              Welcome to the sanctuary for those who've suffered through subpar dental hygiene tools.
+              Welcome to the sanctuary for those who&apos;ve suffered through subpar dental hygiene tools.
               Here, we unite to share our triumphs and tragedies with dental floss,
               helping others avoid the pitfalls of inferior string.
             </p>
             <p className="italic text-sm">
-              Because life's too short for bad floss. 🦷✨
+              Because life&apos;s too short for bad floss. 🦷✨
             </p>
           </div>
         </div>
@@ -56,8 +72,8 @@ export default async function Home() {
           </p>
         )}
 
-        <Suspense fallback={<div>Loading reviews...</div>}>
-          <ReviewList />
+        <Suspense fallback={<div>Loading products...</div>}>
+          <ReviewList initialProducts={products} />
         </Suspense>
       </div>
     </main>

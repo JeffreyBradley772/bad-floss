@@ -14,7 +14,7 @@ export default function FlossDetailPage({ params }: { params: { id: string } }) 
     <div className="min-h-screen bg-gray-50 py-8">
       <main className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
-          <Link 
+          <Link
             href="/"
             className="text-blue-600 hover:text-blue-800 mb-6 inline-block"
           >

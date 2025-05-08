@@ -1,10 +1,11 @@
 'use client';
 
 import { signIn, signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
 
-export default function Navigation({ session }: { session: any }) {
+export default function Navigation({ session }: { session: Session | null }) {
   return (
-    <nav className="bg-blue-600 text-white shadow-lg">
+    <nav className="bg-blue-600 backdrop-blur text-white shadow-lg">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <a href="/" className="text-2xl font-bold tracking-tight hover:text-blue-100 transition-colors">
           🦷 Floss Reviews

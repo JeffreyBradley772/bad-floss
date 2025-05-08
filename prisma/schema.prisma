@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Account {
@@ -55,10 +56,38 @@ model User {
   updatedAt     DateTime  @updatedAt
 }
 
+model FlossProduct {
+  id             String               @id @default(cuid())
+  name           String
+  brand          String
+  description    String?              @db.Text
+  type           String               // Traditional, Floss Picks, Eco-Friendly, etc.
+  price          Decimal?             @db.Decimal(10, 2)
+  imageUrl       String?
+  purchaseLinks  ProductPurchaseLink[]
+  reviews        FlossReview[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+}
+
+model ProductPurchaseLink {
+  id          String        @id @default(cuid())
+  productId   String
+  product     FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  retailer    String       // Amazon, Walmart, Target, etc.
+  url         String
+  price       Decimal?     @db.Decimal(10, 2)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([productId])
+}
+
 model FlossReview {
   id          String    @id @default(cuid())
   title       String
-  brand       String
+  productId   String
+  product     FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
   description String    @db.Text
   rating      Int       @db.SmallInt
   pros        String[]
@@ -70,6 +99,7 @@ model FlossReview {
   updatedAt   DateTime  @updatedAt
 
   @@index([userId])
+  @@index([productId])
 }
 
 model Comment {
