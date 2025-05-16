@@ -18,9 +18,10 @@ type SerializedProduct = {
 
 type ReviewListProps = {
   initialProducts: SerializedProduct[];
+  page: number;
 };
 
-export default function ReviewList({ initialProducts }: ReviewListProps) {
+export default function ReviewList({ initialProducts, page }: ReviewListProps) {
   const [products, setProducts] = useState(initialProducts);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [skipProducts, setSkipProducts] = useState(initialProducts.length);
@@ -35,7 +36,7 @@ export default function ReviewList({ initialProducts }: ReviewListProps) {
     try {
       const response = await fetch(`/api/products/?skipProducts=${skipProducts}&takeProducts=10`);
       const data = await response.json();
-      if (Array.isArray(data.products) || data.product.length > 0) {
+      if (Array.isArray(data.products) && data.products.length > 0 && data.products.length < 40) {
         setProducts((prev) => [...prev, ...data.products]);
         setSkipProducts((prev) => prev + data.products.length);
         setHasMoreProducts(data.pagination.hasMoreProducts);
@@ -77,9 +78,16 @@ export default function ReviewList({ initialProducts }: ReviewListProps) {
             <ProductCard product={product} />
         </FadeInWrapper>
       ))}
-      {hasMoreProducts && (
+      {hasMoreProducts && products.length < 25 && (
         <div ref={loadMorePointRef} className="col-span-full h-20 flex items-center justify-center">
           {isLoadingProducts ? 'Loading more products...' : ''}
+        </div>
+      )}
+      {products.length > 25 && (
+        <div className="col-span-full h-20 flex items-center justify-center">
+          <button onClick={loadMoreProducts} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            Load More Products
+          </button>
         </div>
       )}
     </div>
