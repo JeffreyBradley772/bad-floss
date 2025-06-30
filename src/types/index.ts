@@ -22,3 +22,16 @@ export interface Brand {
     userName: string;
     createdAt: Date;
   }
+
+  // Define a serialized version of FlossProduct
+  export type SerializedProduct = {
+    id: string;
+    name: string;
+    brand: string;
+    description: string | null;
+    type: string;
+    price: number | null;
+    imageUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+  };

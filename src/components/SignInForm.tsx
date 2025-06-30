@@ -16,35 +16,36 @@ export default function SignInForm({ providers }: { providers: Record<string, Cl
   };
 
   return (
+    // <div className="space-y-6">
+    //
+    //   <form onSubmit={handleEmailSubmit} className="space-y-4">
+    //     <div>
+    //       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+    //         Email address
+    //       </label>
+    //       <input
+    //         type="email"
+    //         id="email"
+    //         name="email"
+    //         value={email}
+    //         onChange={(e) => setEmail(e.target.value)}
+    //         required
+    //         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 text-sm
+    //                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    //         placeholder="you@example.com"
+    //       />
+    //     </div>
+    //     <button
+    //       type="submit"
+    //       disabled={isSubmitting}
+    //       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium
+    //                text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+    //                disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+    //     >
+    //       {isSubmitting ? "Sending link..." : "Continue with Email"}
+    //     </button>
+    //   </form>
     <div className="space-y-6">
-      <form onSubmit={handleEmailSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="you@example.com"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium
-                   text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                   disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {isSubmitting ? "Sending link..." : "Continue with Email"}
-        </button>
-      </form>
-
       <div className="grid gap-3">
         {Object.values(providers || {}).map(
           (provider) =>

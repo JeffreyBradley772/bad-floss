@@ -17,14 +17,15 @@ type SerializedProduct = {
 
 export default function ProductCard({ product }: { product: SerializedProduct }) {
     return (
-        <div>
+        <div className="h-full w-full">
             <Link
                 key={product.id}
                 href={`/floss/${product.id}`}
-                className="block transition-transform hover:scale-105"
+                className="block h-full transition-transform hover:scale-105"
             >
-                <div className="bg-white shadow-lg rounded-lg p-6 h-full">
-                    <div className="flex justify-center items-center mb-4">
+                <div className="bg-white shadow-lg rounded-lg p-6 h-full flex flex-col w-full" style={{ minHeight: '400px', maxHeight: '400px' }}>
+                    {/* Image container with fixed height */}
+                    <div className="flex justify-center items-center h-24 mb-4">
                         <Image
                             src={product.imageUrl || '/placeholder.png'}
                             alt={product.name}
@@ -33,25 +34,29 @@ export default function ProductCard({ product }: { product: SerializedProduct })
                             className="w-24 h-24 object-cover rounded-md"
                         />
                     </div>
-                    <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <h2 className="text-xl font-bold mb-1 line-clamp-2.5">
-                                {product.name.length > 150 ? `${product.name.slice(0, 150)}...` : product.name}
+                    
+                    {/* Header section with fixed height */}
+                    <div className="flex justify-between items-start mb-4 h-20">
+                        <div className="overflow-hidden">
+                            <h2 className="text-xl font-bold mb-1 line-clamp-1 overflow-ellipsis">
+                                {product.name}
                             </h2>
-                            <h2 className="text-xl font-bold mb-1">
-                                {product.brand.length > 25 ? `${product.brand.slice(0, 25)}...` : product.brand}
+                            <h2 className="text-xl font-bold mb-1 line-clamp-1 overflow-ellipsis">
+                                {product.brand}
                             </h2>
                         </div>
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap">
                             {product.type}
                         </span>
                     </div>
 
-                    <p className="text-gray-600 min-h-12 max-h-24 overflow-hidden text-sm mb-4 line-clamp-1">
+                    {/* Description with fixed height */}
+                    <p className="text-gray-600 h-12 text-sm mb-4 line-clamp-2 overflow-hidden">
                         {product.description}
                     </p>
 
-                    <div className="flex items-center justify-between">
+                    {/* Ratings section with fixed height */}
+                    <div className="flex items-center justify-between h-8">
                         <div className="flex items-center">
                             <div className="flex items-center">
                                 {[...Array(5)].map((_, i) => (
@@ -73,9 +78,10 @@ export default function ProductCard({ product }: { product: SerializedProduct })
                         </span>
                     </div>  
 
-                    <div className="mt-4 flex justify-between items-center">
+                    {/* Footer section with price and view details */}
+                    <div className="mt-auto pt-4 flex justify-between items-center">
                         <span className="text-lg font-semibold text-blue-600">
-                            ${product.price?.toString()}
+                            ${product.price?.toString() || 'N/A'}
                         </span>
                         <span className="text-sm text-blue-600">
                             View Details →

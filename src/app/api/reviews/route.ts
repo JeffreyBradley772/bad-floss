@@ -13,6 +13,7 @@ const reviewSchema = z.object({
   rating: z.number().min(1).max(5),
   pros: z.array(z.string()),
   cons: z.array(z.string()),
+  productId: z.string().min(1), // Add required productId field
 });
 
 export async function GET() {

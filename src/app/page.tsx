@@ -5,25 +5,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { SparklesCore, ParticlesProps } from '@/components/ui/sparkles';
 import { GradientLine } from '@/components/ui/GradientLine';
-import { prisma } from '@/lib/prisma';
-import { FlossProduct } from '@prisma/client';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  
-  // Fetch products directly in the server component - get initial 20 for first page
-  const rawProducts = await prisma.flossProduct.findMany({
-    take: 20,
-    orderBy: { createdAt: 'desc' }
-  });
-  
-  // Serialize the products to handle Decimal and Date objects
-  const products = rawProducts.map(product => ({
-    ...product,
-    price: product.price ? parseFloat(product.price.toString()) : null,
-    createdAt: product.createdAt.toISOString(),
-    updatedAt: product.updatedAt.toISOString()
-  }));
 
   const sparkleProps: ParticlesProps = {
     id: 'background-sparkles',
@@ -72,8 +56,8 @@ export default async function Home() {
           </p>
         )}
 
-        <Suspense fallback={<div>Loading products...</div>}>
-          <ReviewList initialProducts={products} />
+        <Suspense>
+          <ReviewList />
         </Suspense>
       </div>
     </main>
