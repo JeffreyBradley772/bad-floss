@@ -1,8 +1,8 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { Session, User } from "next-auth";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { Session, User } from 'next-auth';
 
 const prisma = new PrismaClient();
 
@@ -24,7 +24,7 @@ export const authOptions = {
       name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: "lax" as const,
+        sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
       },
@@ -33,26 +33,26 @@ export const authOptions = {
       name: `next-auth.callback-url`,
       options: {
         httpOnly: true,
-        sameSite: "lax" as const,
+        sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
       },
     },
     pkceCodeVerifier: {
-      name: "next-auth.pkce.code_verifier",
+      name: 'next-auth.pkce.code_verifier',
       options: {
         httpOnly: true,
-        sameSite: "lax" as const,
+        sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
         maxAge: 900,
       },
     },
     state: {
-      name: "next-auth.state",
+      name: 'next-auth.state',
       options: {
         httpOnly: true,
-        sameSite: "lax" as const,
+        sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
         maxAge: 900,
@@ -61,7 +61,7 @@ export const authOptions = {
   },
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
-    session: async ({ session, user }: { session: Session, user: User }) => {
+    session: async ({ session, user }: { session: Session; user: User }) => {
       if (session?.user) {
         session.user.id = user.id;
         session.user.isVerified = user.isVerified;

@@ -1,15 +1,11 @@
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
-export default function ErrorPage({
-  searchParams,
-}: {
-  searchParams: { error?: string };
-}) {
+export default function ErrorPage({ searchParams }: { searchParams: { error?: string } }) {
   const error = searchParams?.error || 'Unknown error';
-  
+
   let errorMessage = 'An error occurred during authentication.';
-  
+
   if (error === 'OAuthCallback') {
     errorMessage = 'There was a problem with the OAuth callback. Please try again.';
   } else if (error === 'OAuthSignin') {
@@ -31,14 +27,9 @@ export default function ErrorPage({
       <div className="max-w-md w-full space-y-8 text-center">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Authentication Error</h2>
-          <div className="mt-2 text-red-600 text-lg">
-            {errorMessage}
-          </div>
+          <div className="mt-2 text-red-600 text-lg">{errorMessage}</div>
           <div className="mt-8">
-            <Link
-              href="/"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800"
-            >
+            <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800">
               <ArrowLeftIcon className="h-5 w-5 mr-1" />
               Return to home page
             </Link>

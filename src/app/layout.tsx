@@ -1,23 +1,19 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import AuthProvider from "@/components/AuthProvider";
-import Navigation from "@/components/Navigation";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
+import AuthProvider from '@/components/AuthProvider';
+import Navigation from '@/components/Navigation';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Floss Reviews Forum",
-  description: "A community-driven forum for dental floss reviews and rankings",
+  title: 'Floss Reviews Forum',
+  description: 'A community-driven forum for dental floss reviews and rankings',
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
 
   return (

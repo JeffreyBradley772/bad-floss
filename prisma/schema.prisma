@@ -1,117 +1,115 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+model Comment {
+  id          String      @id
+  content     String
+  userId      String
+  reviewId    String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime
+  FlossReview FlossReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  reviews       FlossReview[]
-  comments      Comment[]
-  isVerified    Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  @@index([reviewId])
+  @@index([userId])
 }
 
 model FlossProduct {
-  id             String               @id @default(cuid())
-  name           String
-  brand          String
-  description    String?              @db.Text
-  type           String               // Traditional, Floss Picks, Eco-Friendly, etc.
-  price          Decimal?             @db.Decimal(10, 2)
-  imageUrl       String?
-  purchaseLinks  ProductPurchaseLink[]
-  reviews        FlossReview[]
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @updatedAt
-}
-
-model ProductPurchaseLink {
-  id          String        @id @default(cuid())
-  productId   String
-  product     FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
-  retailer    String       // Amazon, Walmart, Target, etc.
-  url         String
-  price       Decimal?     @db.Decimal(10, 2)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@index([productId])
+  id                  String                @id
+  name                String
+  brand               String
+  shortDescription    String?
+  longDescription     String?
+  price               Decimal?              @db.Decimal(10, 2)
+  msrp                Decimal?              @db.Decimal(10, 2)
+  thumbnailImageUrl   String?
+  mediumImageUrl      String?
+  largeImageUrl       String?
+  walmartRating       Decimal?              @db.Decimal(10, 2)
+  affiliateUrl        String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime
+  FlossReview         FlossReview[]
+  ProductPurchaseLink ProductPurchaseLink[]
 }
 
 model FlossReview {
-  id          String    @id @default(cuid())
-  title       String
-  productId   String
-  product     FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
-  description String    @db.Text
-  rating      Int       @db.SmallInt
-  pros        String[]
-  cons        String[]
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments    Comment[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String       @id
+  title        String
+  productId    String
+  description  String
+  rating       Int          @db.SmallInt
+  pros         String[]
+  cons         String[]
+  userId       String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime
+  Comment      Comment[]
+  FlossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  User         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([productId])
   @@index([userId])
+}
+
+model ProductPurchaseLink {
+  id           String       @id
+  productId    String
+  retailer     String
+  url          String
+  price        Decimal?     @db.Decimal(10, 2)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime
+  FlossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
   @@index([productId])
 }
 
-model Comment {
-  id           String      @id @default(cuid())
-  content      String      @db.Text
+model Session {
+  id           String   @id
+  sessionToken String   @unique
   userId       String
-  reviewId     String
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  review       FlossReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  expires      DateTime
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@index([userId])
-  @@index([reviewId])
+model User {
+  id            String        @id
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  isVerified    Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime
+  Account       Account[]
+  Comment       Comment[]
+  FlossReview   FlossReview[]
+  Session       Session[]
 }

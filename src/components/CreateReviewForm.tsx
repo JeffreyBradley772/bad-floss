@@ -81,7 +81,7 @@ export default function CreateReviewForm() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
           <div className="flex gap-1">
-            {[1, 2, 3, 4, 5].map((value) => (
+            {[1, 2, 3, 4, 5].map(value => (
               <button
                 key={value}
                 type="button"
@@ -89,9 +89,7 @@ export default function CreateReviewForm() {
                 className="focus:outline-none"
               >
                 <StarIcon
-                  className={`h-6 w-6 ${
-                    value <= rating ? 'text-yellow-400' : 'text-gray-200'
-                  }`}
+                  className={`h-6 w-6 ${value <= rating ? 'text-yellow-400' : 'text-gray-200'}`}
                 />
               </button>
             ))}
@@ -118,7 +116,7 @@ export default function CreateReviewForm() {
               <input
                 type="text"
                 value={pro}
-                onChange={(e) => {
+                onChange={e => {
                   const newPros = [...pros];
                   newPros[index] = e.target.value;
                   if (index === pros.length - 1 && e.target.value) {
@@ -149,7 +147,7 @@ export default function CreateReviewForm() {
               <input
                 type="text"
                 value={con}
-                onChange={(e) => {
+                onChange={e => {
                   const newCons = [...cons];
                   newCons[index] = e.target.value;
                   if (index === cons.length - 1 && e.target.value) {

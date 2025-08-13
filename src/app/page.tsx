@@ -6,7 +6,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import { SparklesCore, ParticlesProps } from '@/components/ui/sparkles';
 import { GradientLine } from '@/components/ui/GradientLine';
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: { page?: string } }) {
   const session = await getServerSession(authOptions);
 
   const sparkleProps: ParticlesProps = {
@@ -16,7 +16,9 @@ export default async function Home() {
     speed: 2,
     className: 'absolute inset-0 w-full h-full',
     particleColor: '#007BFF',
-  }
+  };
+
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
   return (
     <main className="container mx-auto px-4 py-8 relative min-h-screen">
@@ -29,20 +31,18 @@ export default async function Home() {
             <h1 className="text-4xl font-bold mb-6 text-blue-600">Floss Reviews Forum</h1>
             <GradientLine />
           </div>
-          <div className="prose prose-lg mx-auto text-gray-600">
+          <div className="prose prose-lg mx-auto">
             <p className="mb-4">
-              Have you ever been betrayed by floss that shreds into a million pieces?
-              Or those &quot;convenient&quot; floss sticks that snap at the worst possible moment?
+              Have you ever been betrayed by floss that shreds into a million pieces? Or those
+              &quot;convenient&quot; floss sticks that snap at the worst possible moment?
               You&apos;re not alone.
             </p>
             <p className="mb-4">
-              Welcome to the sanctuary for those who&apos;ve suffered through subpar dental hygiene tools.
-              Here, we unite to share our triumphs and tragedies with dental floss,
-              helping others avoid the pitfalls of inferior string.
+              Welcome to the sanctuary for those who&apos;ve suffered through subpar dental hygiene
+              tools. Here, we unite to share our triumphs and tragedies with dental floss, helping
+              others avoid the pitfalls of inferior string.
             </p>
-            <p className="italic text-sm">
-              Because life&apos;s too short for bad floss. 🦷✨
-            </p>
+            <p className="italic text-sm">Because life&apos;s too short for bad floss. 🦷✨</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default async function Home() {
         )}
 
         <Suspense>
-          <ReviewList />
+          <ReviewList pageNumber={page} />
         </Suspense>
       </div>
     </main>
