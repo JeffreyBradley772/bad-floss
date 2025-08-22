@@ -26,8 +26,7 @@ export async function getAllProductsAction(): Promise<{ products: SerializedProd
 
 export async function getProductByIdAction(
   id: string
-): Promise<{ product: SerializedProduct | null, error?: string | null}> {
-
+): Promise<{ product: SerializedProduct | null; error?: string | null }> {
   if (!id) {
     return { product: null, error: 'Missing product ID' };
   }

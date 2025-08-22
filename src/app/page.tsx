@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: { searchParams: { page?: st
           </div>
         </div>
 
-        {session ? (
+        {/* {session ? (
           <div className="mb-8">
             <CreateReviewForm />
           </div>
@@ -54,7 +54,7 @@ export default async function Home({ searchParams }: { searchParams: { page?: st
           <p className="text-center mb-8 text-gray-600 z-20">
             Sign in to share your floss reviews!
           </p>
-        )}
+        )} */}
 
         <Suspense>
           <ReviewList pageNumber={page} />

@@ -9,7 +9,7 @@ export async function getProducts(page: number): Promise<{ products: SerializedP
   const products = await prisma.flossProduct.findMany({
     take: 24,
     skip: (page - 1) * 24,
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
   });
   return { products: serialize(products) };
 }
@@ -33,7 +33,7 @@ export async function getProductById(
   const product = await prisma.flossProduct.findUnique({
     where: {
       id: productId,
-    }
+    },
   });
 
   if (!product) {

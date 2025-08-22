@@ -1,11 +1,8 @@
 export default function ProductDetailsSkeleton() {
   return (
     <div className="max-w-3xl mx-auto animate-pulse">
-      <div className="h-6 bg-gray-300 rounded w-1/4 mb-6"></div>
 
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8"></div>
-
-      <div className="flex items-stretch h-96 gap-4">
+      <div className="flex items-stretch mt-4 h-96 gap-4">
         <div className="bg-gray-600 w-3/4 h-full rounded-lg p-4 flex items-center justify-center"></div>
 
         <div className="bg-gray-600 w-3/4 h-full rounded-lg ">
