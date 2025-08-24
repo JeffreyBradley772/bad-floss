@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -33,8 +34,8 @@ model Comment {
   reviewId    String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime
-  FlossReview FlossReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flossReview FlossReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([reviewId])
   @@index([userId])
@@ -55,8 +56,8 @@ model FlossProduct {
   affiliateUrl        String?
   createdAt           DateTime              @default(now())
   updatedAt           DateTime
-  FlossReview         FlossReview[]
-  ProductPurchaseLink ProductPurchaseLink[]
+  flossReview         FlossReview[]
+  productPurchaseLink ProductPurchaseLink[]
 }
 
 model FlossReview {
@@ -70,9 +71,9 @@ model FlossReview {
   userId       String
   createdAt    DateTime     @default(now())
   updatedAt    DateTime
-  Comment      Comment[]
-  FlossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
-  User         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment      Comment[]
+  flossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([productId])
   @@index([userId])
@@ -86,7 +87,7 @@ model ProductPurchaseLink {
   price        Decimal?     @db.Decimal(10, 2)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime
-  FlossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  flossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
@@ -109,7 +110,7 @@ model User {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   accounts      Account[]
-  Comment       Comment[]
-  FlossReview   FlossReview[]
+  comment       Comment[]
+  flossReview   FlossReview[]
   sessions      Session[]
 }
