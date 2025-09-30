@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Rating, RatingButton } from '@/components/ui/shadcn-io/rating';
 import { ExpandableDescription } from '@/components/ExpandableDescription';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { getReviewsByProductIdAction } from '@/app/actions/reviews';
 import { ReviewCard } from './reviews/ReviewCard';
 import CreateReviewForm from './CreateReviewForm';
