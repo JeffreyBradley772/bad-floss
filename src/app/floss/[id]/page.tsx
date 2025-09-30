@@ -2,11 +2,16 @@ import ProductDetails from '@/components/ProductDetails';
 import ProductDetailsSkeleton from '@/components/skeletons/ProductDetailsSkeleton';
 import { Suspense } from 'react';
 
-export default function FlossDetailPage({ params }: { params: { id: string } }) {
+export default async function FlossDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   return (
     <div>
       <Suspense fallback={<ProductDetailsSkeleton />}>
-        <ProductDetails productId={params.id} />
+        <ProductDetails productId={id} />
       </Suspense>
     </div>
   );

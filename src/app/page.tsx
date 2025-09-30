@@ -1,12 +1,15 @@
 import { Suspense } from 'react';
 import ReviewList from '@/components/ReviewList';
-import CreateReviewForm from '@/components/CreateReviewForm';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { SparklesCore, ParticlesProps } from '@/components/ui/sparkles';
 import { GradientLine } from '@/components/ui/GradientLine';
 
-export default async function Home({ searchParams }: { searchParams: { page?: string } }) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const session = await getServerSession(authOptions);
 
   const sparkleProps: ParticlesProps = {
@@ -18,7 +21,8 @@ export default async function Home({ searchParams }: { searchParams: { page?: st
     particleColor: '#007BFF',
   };
 
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const { page: pageParam } = await searchParams;
+  const page = pageParam ? parseInt(pageParam, 10) : 1;
 
   return (
     <main className="container mx-auto px-4 py-8 relative min-h-screen">
@@ -45,16 +49,6 @@ export default async function Home({ searchParams }: { searchParams: { page?: st
             <p className="italic text-sm">Because life&apos;s too short for bad floss. 🦷✨</p>
           </div>
         </div>
-
-        {/* {session ? (
-          <div className="mb-8">
-            <CreateReviewForm />
-          </div>
-        ) : (
-          <p className="text-center mb-8 text-gray-600 z-20">
-            Sign in to share your floss reviews!
-          </p>
-        )} */}
 
         <Suspense>
           <ReviewList pageNumber={page} />

@@ -41,6 +41,21 @@ model Comment {
   @@index([userId])
 }
 
+model Reaction {
+  reviewId    String      @map("review_id")
+  userId      String      @map("user_id")
+  reaction    Int         @db.SmallInt
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  deletedAt   DateTime?   @map("deleted_at")
+
+  flossReview FlossReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([reviewId, userId])
+  @@map("review_reactions")
+}
+
 model FlossProduct {
   id                  String                @id
   name                String
@@ -66,12 +81,11 @@ model FlossReview {
   productId    String
   description  String
   rating       Int          @db.SmallInt
-  pros         String[]
-  cons         String[]
   userId       String
   createdAt    DateTime     @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime     @updatedAt
   comment      Comment[]
+  reactions    Reaction[]
   flossProduct FlossProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -112,5 +126,6 @@ model User {
   accounts      Account[]
   comment       Comment[]
   flossReview   FlossReview[]
+  reactions     Reaction[]
   sessions      Session[]
 }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { SerializedProduct } from '@/lib/models/products';
 import { Rating, RatingButton } from '@/components/ui/shadcn-io/rating';
 
-export default function ProductCard({ product }: { product: SerializedProduct }) {
+export default function ProductCard({ product, reviews }: { product: SerializedProduct; reviews: number }) {
   return (
     <div className="h-full w-full">
       <Link
@@ -40,7 +40,7 @@ export default function ProductCard({ product }: { product: SerializedProduct })
           </div>
 
           {/* Description with fixed height */}
-          <p className="text-gray-600 h-20 text-sm line-clamp-2 overflow-auto">
+          <p className="text-gray-600 h-20 text-sm line-clamp-2 overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {product.shortDescription}
           </p>
 
@@ -62,7 +62,7 @@ export default function ProductCard({ product }: { product: SerializedProduct })
                 </div>
               </div>
             </div>
-            <span className="text-sm text-gray-500"># reviews</span>
+            {/* <span className="text-sm text-gray-500"># reviews</span> */}
           </div>
 
           {/* Footer section with price and view details */}

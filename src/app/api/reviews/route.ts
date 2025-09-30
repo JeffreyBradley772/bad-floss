@@ -1,18 +1,12 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { z } from 'zod';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 const reviewSchema = z.object({
-  title: z.string().min(1).max(100),
-  brand: z.string().min(1).max(50),
-  description: z.string().min(1),
+  title: z.string().min(1).max(100),  description: z.string().min(1),
   rating: z.number().min(1).max(5),
-  pros: z.array(z.string()),
-  cons: z.array(z.string()),
   productId: z.string().min(1), // Add required productId field
 });
 
@@ -27,7 +21,7 @@ export async function GET() {
           },
         },
         _count: {
-          select: { comments: true },
+          select: { comment: true },
         },
       },
       orderBy: {
@@ -57,6 +51,7 @@ export async function POST(request: Request) {
 
     const review = await prisma.flossReview.create({
       data: {
+        id: crypto.randomUUID(),
         ...parsed.data,
         userId: session.user.id,
       },

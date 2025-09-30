@@ -25,7 +25,7 @@ export default async function ReviewList({ pageNumber = 1 }: ReviewListProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map(product => (
           <FadeInWrapper key={product.id}>
-            <ProductCard product={product} />
+            <ProductCard product={product} reviews={0} />
           </FadeInWrapper>
         ))}
       </div>

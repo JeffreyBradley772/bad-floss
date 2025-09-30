@@ -2,6 +2,7 @@
 
 import { getAllProductsAction } from '@/app/actions/products';
 import { SerializedProduct } from '@/lib/models/products';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function SearchBar() {
@@ -12,8 +13,8 @@ export default function SearchBar() {
   // Fetch products when component mounts
   useEffect(() => {
     const fetchProducts = async () => {
-      const { products } = await getAllProductsAction();
-      setProducts(products);
+      const { success, data } = await getAllProductsAction();
+      setProducts(data?.products || []);
     };
 
     fetchProducts();
@@ -43,7 +44,7 @@ export default function SearchBar() {
           >
             {filteredProducts.slice(0, 10).map(item => (
               <li key={item.id} className="p-2 hover:bg-gray-100 text-black">
-                {item.name}
+                <Link href={`/floss/${item.id}`}>{item.name}</Link>
               </li>
             ))}
             {filteredProducts.length === 0 && (
