@@ -1,13 +1,15 @@
-import { prisma } from "@/lib/prisma";
-import { CreateReviewInput, ReviewResponse } from "@/lib/schemas/review";
-import { FlossReview, User } from "@prisma/client";
-import { ActionResult, SerializedFlossReview } from "@/lib/types";
+import { prisma } from '@/lib/prisma';
+import { CreateReviewInput } from '@/lib/schemas/review';
+import { FlossReview, User } from '@prisma/client';
+import { ActionResult, SerializedFlossReview } from '@/lib/types';
 
 // Utility function to serialize review data for client components
-function serializeReview(review: FlossReview & { 
-  user: Pick<User, 'name' | 'image'>;
-  _count: { comment: number };
-}): SerializedFlossReview {
+function serializeReview(
+  review: FlossReview & {
+    user: Pick<User, 'name' | 'image'>;
+    _count: { comment: number };
+  }
+): SerializedFlossReview {
   return {
     id: review.id,
     title: review.title,
@@ -45,7 +47,9 @@ export async function deleteReview(reviewId: string): Promise<ActionResult<void>
   }
 }
 
-export async function getReviewsByProductId(productId: string): Promise<ActionResult<SerializedFlossReview[]>> {
+export async function getReviewsByProductId(
+  productId: string
+): Promise<ActionResult<SerializedFlossReview[]>> {
   try {
     const reviews = await prisma.flossReview.findMany({
       where: {
@@ -82,7 +86,10 @@ export async function getReviewsByProductId(productId: string): Promise<ActionRe
   }
 }
 
-export async function createReview(input: CreateReviewInput, userId: string): Promise<ActionResult<SerializedFlossReview>> {
+export async function createReview(
+  input: CreateReviewInput,
+  userId: string
+): Promise<ActionResult<SerializedFlossReview>> {
   try {
     const review = await prisma.flossReview.create({
       data: {

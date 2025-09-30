@@ -4,7 +4,13 @@ import Image from 'next/image';
 import { Session } from 'next-auth';
 import { DeleteReviewButton } from './DeleteReviewButton';
 
-export function ReviewCard({ review, session }: { review: SerializedFlossReview; session: Session | null }) {
+export function ReviewCard({
+  review,
+  session,
+}: {
+  review: SerializedFlossReview;
+  session: Session | null;
+}) {
   const isSessionUsersReview = session?.user?.id === review.userId;
   const timestamp = new Date(review.createdAt);
   const formattedDate = timestamp.toLocaleDateString();
@@ -24,9 +30,7 @@ export function ReviewCard({ review, session }: { review: SerializedFlossReview;
           <h3 className="pl-1 text-sm font-semibold text-black">{review.user?.name}</h3>
         </div>
 
-        {isSessionUsersReview && (
-          <DeleteReviewButton reviewId={review.id} />
-        )}
+        {isSessionUsersReview && <DeleteReviewButton reviewId={review.id} />}
       </div>
 
       <div className="flex items-center gap-2">

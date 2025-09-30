@@ -1,17 +1,9 @@
 import { Suspense } from 'react';
 import ReviewList from '@/components/ReviewList';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { SparklesCore, ParticlesProps } from '@/components/ui/sparkles';
 import { GradientLine } from '@/components/ui/GradientLine';
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const session = await getServerSession(authOptions);
-
+export default async function Home({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const sparkleProps: ParticlesProps = {
     id: 'background-sparkles',
     background: 'transparent',

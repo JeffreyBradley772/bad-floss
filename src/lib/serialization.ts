@@ -55,7 +55,7 @@ export function serialize<T>(obj: T): Serialized<T> {
     const newObj: { [key: string]: Serializable } = {};
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        newObj[key] = serialize((obj as any)[key]);
+        newObj[key] = serialize((obj as unknown)[key]);
       }
     }
     return newObj as Serialized<T>;

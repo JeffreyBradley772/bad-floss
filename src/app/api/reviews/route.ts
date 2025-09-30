@@ -5,7 +5,8 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 
 const reviewSchema = z.object({
-  title: z.string().min(1).max(100),  description: z.string().min(1),
+  title: z.string().min(1).max(100),
+  description: z.string().min(1),
   rating: z.number().min(1).max(5),
   productId: z.string().min(1), // Add required productId field
 });
@@ -31,7 +32,7 @@ export async function GET() {
 
     return NextResponse.json(reviews);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch reviews: ' + error }, { status: 500 });
   }
 }
 
@@ -59,6 +60,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json(review);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create review' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create review: ' + error }, { status: 500 });
   }
 }

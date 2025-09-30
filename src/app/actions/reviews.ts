@@ -1,15 +1,19 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { createReviewSchema, CreateReviewInput } from '@/lib/schemas/review';
-import { createReview, getReviewsByProductId, getAllReviews, deleteReview } from '@/lib/models/reviews';
+import { createReviewSchema } from '@/lib/schemas/review';
+import {
+  createReview,
+  getReviewsByProductId,
+  getAllReviews,
+  deleteReview,
+} from '@/lib/models/reviews';
 import { ActionResult, SerializedFlossReview } from '@/lib/types';
 
 export async function createReviewAction(
-  prevState: any,
+  prevState: unknown,
   formData: FormData
 ): Promise<ActionResult<SerializedFlossReview>> {
   try {
@@ -42,7 +46,7 @@ export async function createReviewAction(
 
     // Create the review
     const result = await createReview(validationResult.data, session.user.id);
-    
+
     if (result.success) {
       // Revalidate relevant pages
       revalidatePath('/');
@@ -59,7 +63,9 @@ export async function createReviewAction(
   }
 }
 
-export async function getReviewsByProductIdAction(productId: string): Promise<ActionResult<SerializedFlossReview[]>> {
+export async function getReviewsByProductIdAction(
+  productId: string
+): Promise<ActionResult<SerializedFlossReview[]>> {
   return await getReviewsByProductId(productId);
 }
 

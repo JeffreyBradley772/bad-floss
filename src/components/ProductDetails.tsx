@@ -54,9 +54,7 @@ export default async function ProductDetails({ productId }: { productId: string 
               <h2 className="text-lg lg:text-xl font-semibold text-gray-900">Description</h2>
             </div>
             <div className="px-4 lg:pl-6 pb-4 lg:pb-6">
-              <ExpandableDescription
-                description={product?.longDescription || ''}
-              />
+              <ExpandableDescription description={product?.longDescription || ''} />
             </div>
           </div>
 
@@ -76,7 +74,9 @@ export default async function ProductDetails({ productId }: { productId: string 
                 )}
               </div>
               {product?.price && (
-                <div className="text-2xl lg:text-3xl font-bold text-green-600">${product.price.toString()}</div>
+                <div className="text-2xl lg:text-3xl font-bold text-green-600">
+                  ${product.price.toString()}
+                </div>
               )}
             </div>
           </div>
@@ -84,11 +84,16 @@ export default async function ProductDetails({ productId }: { productId: string 
       </div>
 
       <div className="mt-2 rounded-lg">
-        <div className="mb-2">{session ? <CreateReviewForm productId={productId} /> : (
-          <div className="flex items-center bg-white rounded-lg p-2 justify-center">
-            <a href="/auth/signin" className="text-blue-600 font-semibold hover:underline">Please sign in to write a review</a>
-          </div>
-        )}
+        <div className="mb-2">
+          {session ? (
+            <CreateReviewForm productId={productId} />
+          ) : (
+            <div className="flex items-center bg-white rounded-lg p-2 justify-center">
+              <a href="/auth/signin" className="text-blue-600 font-semibold hover:underline">
+                Please sign in to write a review
+              </a>
+            </div>
+          )}
         </div>
         {reviewsQuerySuccess && reviewsData?.length > 0 ? (
           reviewsData?.map(review => {

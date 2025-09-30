@@ -20,7 +20,9 @@ export async function getProductsAction(
   };
 }
 
-export async function getAllProductsAction(): Promise<ActionResult<{ products: SerializedProduct[] }>> {
+export async function getAllProductsAction(): Promise<
+  ActionResult<{ products: SerializedProduct[] }>
+> {
   const { products } = await getAllProducts();
   return { success: true, data: { products } };
 }

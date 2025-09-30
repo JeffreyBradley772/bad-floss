@@ -2,7 +2,6 @@
 
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { FlossProduct } from '@prisma/client';
 
 // Define a serialized version of FlossProduct
 type SerializedProduct = {
@@ -55,6 +54,6 @@ export async function GET(request: Request): Promise<NextResponse<ProductsRespon
 
     return NextResponse.json({ products, pagination: { total, hasMoreProducts } });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch products' + error }, { status: 500 });
   }
 }

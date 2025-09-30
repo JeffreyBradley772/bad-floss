@@ -13,7 +13,7 @@ export default function SearchBar() {
   // Fetch products when component mounts
   useEffect(() => {
     const fetchProducts = async () => {
-      const { success, data } = await getAllProductsAction();
+      const { data } = await getAllProductsAction();
       setProducts(data?.products || []);
     };
 

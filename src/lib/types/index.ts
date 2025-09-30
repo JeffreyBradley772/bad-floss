@@ -1,5 +1,5 @@
 // Common types used across the application
-export type ActionResult<T = any> = {
+export type ActionResult<T = unknown> = {
   success: boolean;
   data?: T;
   error?: string;
@@ -7,7 +7,7 @@ export type ActionResult<T = any> = {
 };
 
 // Form state for client components
-export type FormState<T = any> = {
+export type FormState<T = unknown> = {
   isSubmitting: boolean;
   errors?: Record<string, string[]>;
   data?: T;

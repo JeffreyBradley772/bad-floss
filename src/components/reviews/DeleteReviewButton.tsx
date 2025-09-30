@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteReviewAction } from "@/app/actions/reviews";
+import { deleteReviewAction } from '@/app/actions/reviews';
 import { useRouter } from 'next/navigation';
 
 interface DeleteReviewButtonProps {

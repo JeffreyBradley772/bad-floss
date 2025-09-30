@@ -2,22 +2,21 @@
 
 import { signIn } from 'next-auth/react';
 import type { ClientSafeProvider } from 'next-auth/react';
-import { useState } from 'react';
 
 export default function SignInForm({
   providers,
 }: {
   providers: Record<string, ClientSafeProvider> | null;
 }) {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [email, setEmail] = useState('');
+  // const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await signIn('email', { email, callbackUrl: '/' });
-    setIsSubmitting(false);
-  };
+  // const handleEmailSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   await signIn('email', { email, callbackUrl: '/' });
+  //   setIsSubmitting(false);
+  // };
 
   return (
     // <div className="space-y-6">

@@ -1,10 +1,9 @@
-import { StarIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import Image from 'next/image';
 import { SerializedProduct } from '@/lib/models/products';
 import { Rating, RatingButton } from '@/components/ui/shadcn-io/rating';
 
-export default function ProductCard({ product, reviews }: { product: SerializedProduct; reviews: number }) {
+export default function ProductCard({ product }: { product: SerializedProduct }) {
   return (
     <div className="h-full w-full">
       <Link

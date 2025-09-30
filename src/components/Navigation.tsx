@@ -2,17 +2,18 @@
 
 import { signIn, signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
+import Link from 'next/link';
 
 export default function Navigation({ session }: { session: Session | null }) {
   return (
     <nav className="bg-blue-600 backdrop-blur text-white shadow-lg">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a
+        <Link
           href="/"
           className="text-2xl font-bold tracking-tight hover:text-blue-100 transition-colors"
         >
           🦷 Floss Reviews
-        </a>
+        </Link>
         <div>
           {session ? (
             <div className="flex items-center gap-4">
