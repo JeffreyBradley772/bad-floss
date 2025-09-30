@@ -1,7 +1,11 @@
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
-export default async function ErrorPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+export default async function ErrorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   const params = await searchParams;
   const error = params?.error || 'Unknown error';
 

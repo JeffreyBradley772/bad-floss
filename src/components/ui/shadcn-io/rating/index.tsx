@@ -21,12 +21,12 @@ type RatingContextValue = {
   hoverValue: number | null;
   focusedStar: number | null;
   handleValueChange: (
-    event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
-    value: number
+    _event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
+    _value: number
   ) => void;
-  handleKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
-  setHoverValue: (value: number | null) => void;
-  setFocusedStar: (value: number | null) => void;
+  handleKeyDown: (_event: KeyboardEvent<HTMLButtonElement>) => void;
+  setHoverValue: (_value: number | null) => void;
+  setFocusedStar: (_value: number | null) => void;
 };
 
 const RatingContext = createContext<RatingContextValue | null>(null);
@@ -124,10 +124,10 @@ export type RatingProps = {
   defaultValue?: number;
   value?: number;
   onChange?: (
-    event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
-    value: number
+    _event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
+    _value: number
   ) => void;
-  onValueChange?: (value: number) => void;
+  onValueChange?: (_value: number) => void;
   readOnly?: boolean;
   className?: string;
   children?: ReactNode;
