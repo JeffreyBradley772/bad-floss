@@ -12,7 +12,11 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "check-all": "npm run lint && npm run format:check",
     "fix-all": "npm run lint:fix && npm run format",
-    "debug": "next debug"
+    "debug": "next debug",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"No tests specified\" && exit 0",
+    "docker:build": "docker build -f docker/Dockerfile -t floss-reviews .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.local floss-reviews"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
