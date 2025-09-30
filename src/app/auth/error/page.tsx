@@ -1,8 +1,9 @@
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
-export default function ErrorPage({ searchParams }: { searchParams: { error?: string } }) {
-  const error = searchParams?.error || 'Unknown error';
+export default async function ErrorPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const params = await searchParams;
+  const error = params?.error || 'Unknown error';
 
   let errorMessage = 'An error occurred during authentication.';
 
