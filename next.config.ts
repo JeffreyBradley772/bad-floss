@@ -4,12 +4,14 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['i5.walmartimages.com', 'lh3.googleusercontent.com'],
   },
-  // Enable standalone output for Docker deployments
-  output: 'standalone',
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['@heroicons/react', 'lucide-react'],
   },
+  // Disable standalone output for AWS Amplify
+  // Amplify needs the full .next directory structure
+  output: undefined,
+
   // Ensure environment variables are available at runtime
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -18,6 +20,14 @@ const nextConfig: NextConfig = {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  },
+  // Webpack configuration to ensure environment variables are available
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Ensure environment variables are available in server-side code
+      config.externals = config.externals || [];
+    }
+    return config;
   },
 };
 
