@@ -95,7 +95,7 @@ export default async function ProductDetails({ productId }: { productId: string 
             </div>
           )}
         </div>
-        {reviewsQuerySuccess && reviewsData?.length > 0 ? (
+        {reviewsQuerySuccess && reviewsData && reviewsData.length > 0 ? (
           reviewsData?.map(review => {
             return <ReviewCard key={review.id} review={review} session={session} />;
           })

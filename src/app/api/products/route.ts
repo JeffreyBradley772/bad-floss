@@ -2,19 +2,8 @@
 
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-
-// Define a serialized version of FlossProduct
-type SerializedProduct = {
-  id: string;
-  name: string;
-  brand: string;
-  description: string | null;
-  type: string;
-  price: number | null;
-  imageUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
+import { SerializedProduct } from '@/lib/models/products';
+import { serialize } from '@/lib/serialization';
 
 type ProductsResponse =
   | {
@@ -42,12 +31,7 @@ export async function GET(request: Request): Promise<NextResponse<ProductsRespon
     });
 
     // Serialize products to handle Decimal and Date objects
-    const products = rawProducts.map(product => ({
-      ...product,
-      price: product.price ? parseFloat(product.price.toString()) : null,
-      createdAt: product.createdAt.toISOString(),
-      updatedAt: product.updatedAt.toISOString(),
-    }));
+    const products = serialize(rawProducts);
 
     const total = await prisma.flossProduct.count();
     const hasMoreProducts = total > skipProducts + takeProducts;
