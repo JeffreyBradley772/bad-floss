@@ -67,5 +67,22 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    redirect: async ({ url, baseUrl }) => {
+      // Ensure redirects use the correct domain in production
+      if (process.env.NODE_ENV === 'production') {
+        const productionUrl = 'https://flossreviews.com';
+        if (url.startsWith('/')) {
+          return `${productionUrl}${url}`;
+        }
+        if (url.startsWith(productionUrl)) {
+          return url;
+        }
+        return productionUrl;
+      }
+      // Default behavior for development
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
   },
 };

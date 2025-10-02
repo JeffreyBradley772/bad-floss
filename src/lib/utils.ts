@@ -13,6 +13,11 @@ export function getBaseUrl() {
   if (process.env.NEXTAUTH_URL) {
     return process.env.NEXTAUTH_URL;
   }
+  console.log('NEXTAUTH_URL is not set in env');
+  // Production fallback
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://flossreviews.com';
+  }
   return `http://localhost:${process.env.PORT || 3000}`;
 }
 
