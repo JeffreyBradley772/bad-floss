@@ -1,3 +1,4 @@
+import 'server-only';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import { Session, User } from 'next-auth';
@@ -68,21 +69,17 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     redirect: async ({ url, baseUrl }) => {
-      // Ensure redirects use the correct domain in production
-      if (process.env.NODE_ENV === 'production') {
-        const productionUrl = 'https://flossreviews.com';
-        if (url.startsWith('/')) {
-          return `${productionUrl}${url}`;
-        }
-        if (url.startsWith(productionUrl)) {
-          return url;
-        }
-        return productionUrl;
+      // Prefer explicit NEXTAUTH_URL at runtime; fall back to baseUrl
+      const runtimeBase = process.env.NEXTAUTH_URL ?? baseUrl;
+      if (url.startsWith('/')) return `${runtimeBase}${url}`;
+      try {
+        const target = new URL(url);
+        const base = new URL(runtimeBase);
+        if (target.origin === base.origin) return url;
+      } catch {
+        // ignore and fall back
       }
-      // Default behavior for development
-      if (url.startsWith('/')) return `${baseUrl}${url}`;
-      if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
+      return runtimeBase;
     },
   },
 };

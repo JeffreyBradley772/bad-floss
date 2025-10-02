@@ -22,25 +22,20 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Guardrail: ensure no .env files with placeholders are picked up during build
+RUN rm -f .env .env.local .env.production .env.development .env.test || true
+
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build arguments for Next.js build
-ARG NEXTAUTH_URL
-ARG NEXTAUTH_SECRET
+# Build arguments - only include what's needed for build time
 ARG DATABASE_URL
 ARG DIRECT_URL
-ARG GOOGLE_CLIENT_ID
-ARG GOOGLE_CLIENT_SECRET
 
-# Set environment variables for build
+# Set environment variables for build (only what's needed for Prisma generation)
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NEXTAUTH_URL=${NEXTAUTH_URL}
-ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 ENV DIRECT_URL=${DIRECT_URL}
-ENV GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-ENV GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
 
 # Build the application
 RUN pnpm run build
