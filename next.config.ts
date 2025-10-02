@@ -8,9 +8,8 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@heroicons/react', 'lucide-react'],
   },
-  // Disable standalone output for AWS Amplify
-  // Amplify needs the full .next directory structure
-  output: undefined,
+  // Enable standalone output for Docker deployment
+  output: 'standalone',
 
   // Ensure environment variables are available at runtime
   env: {
