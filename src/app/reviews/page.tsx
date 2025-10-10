@@ -3,9 +3,7 @@ import { getAllReviews } from "@/lib/models/reviews";
 
 
 export default async function ReviewsPage() {
-
     const {data: reviews, success: reviewsSuccess} = await getAllReviews();
-
     
     return (
 
@@ -22,5 +20,4 @@ export default async function ReviewsPage() {
 
         </div>
     )
-
 }

@@ -5,9 +5,7 @@ import { Rating, RatingButton } from "@/components/ui/shadcn-io/rating";
 import Link from "next/link";
 
 export default async function FulLReviewCard({review}: {review: SerializedFlossReview}) {
-
     const productId = review.productId;
-
     const {data: product, success: productSuccess} = await getProductByIdAction(productId);
 
     if (!productSuccess) {
@@ -17,8 +15,8 @@ export default async function FulLReviewCard({review}: {review: SerializedFlossR
             </div>
         )
     }
+
     const formattedDate = new Date(review.createdAt).toLocaleDateString();
-    
 
     return (
         <div className="flex flex-col items-center justify-center w-9/12" >
