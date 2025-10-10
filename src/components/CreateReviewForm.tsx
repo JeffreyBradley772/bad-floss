@@ -84,6 +84,7 @@ export default function CreateReviewForm({ productId }: CreateReviewFormProps) {
               name="title"
               id="title"
               required
+              maxLength={100}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
             />
             {state.fieldErrors?.title && (
@@ -121,6 +122,7 @@ export default function CreateReviewForm({ productId }: CreateReviewFormProps) {
               name="description"
               id="description"
               required
+              maxLength={500}
               rows={4}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               placeholder="Share your experience with this floss..."

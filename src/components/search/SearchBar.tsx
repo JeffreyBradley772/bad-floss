@@ -30,7 +30,7 @@ export default function SearchBar() {
   return (
     <div className="w-full">
       <input
-        className="flex justify-center w-1/2 mx-auto mb-8 m-auto text-black p-2 border rounded"
+        className="flex justify-center w-8/12 sm:w-1/2 mx-auto mb-8 m-auto text-black p-2 border rounded"
         type="text"
         placeholder="Type a floss brand to search hundreds of brands and products"
         value={searchText}
@@ -39,7 +39,7 @@ export default function SearchBar() {
       {searchText && (
         <div className="flex justify-center">
           <ul
-            className="bg-white border rounded mt-2 max-h-60 overflow-auto absolute z-10 w-1/2"
+            className="bg-white border rounded max-h-60 overflow-auto mt-2 absolute z-10 sm:w-1/2 w-3/4"
             style={{ maxHeight: '200px', overflowY: 'scroll' }}
           >
             {filteredProducts.slice(0, 10).map(item => (

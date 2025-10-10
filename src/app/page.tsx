@@ -18,13 +18,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
 
   return (
     <main className="container mx-auto px-4 py-8 relative min-h-screen">
-      <div className="absolute inset-0 mx-auto w-full h-full overflow-hidden -z-10">
+      <div className="absolute inset-0 mx-auto w-full h-full overflow-hidden -z-10"> 
         <SparklesCore {...sparkleProps} />
       </div>
       <div className="relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <div className="relative">
-            <h1 className="text-4xl font-bold mb-6 text-blue-600">Floss Reviews Forum</h1>
+            <h1 className="text-4xl font-bold mb-6 text-blue-600">Floss Products</h1>
             <GradientLine />
           </div>
           <div className="prose prose-lg mx-auto">

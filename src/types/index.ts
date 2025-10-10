@@ -8,19 +8,6 @@ export interface Brand {
   price: string;
   type: string;
   imageUrl: string | null;
-  reviews: Review[];
-}
-
-export interface Review {
-  id: string;
-  userId: string;
-  rating: number;
-  title: string;
-  content: string;
-  pros: string[];
-  cons: string[];
-  userName: string;
-  createdAt: Date;
 }
 
 // Define a serialized version of FlossProduct
