@@ -18,7 +18,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
 
   return (
     <main className="container mx-auto px-4 py-8 relative min-h-screen">
-      <div className="absolute inset-0 mx-auto w-full h-full overflow-hidden -z-10"> 
+      <div className="absolute inset-0 mx-auto w-full h-full overflow-hidden -z-10">
         <SparklesCore {...sparkleProps} />
       </div>
       <div className="relative z-10">

@@ -3,7 +3,10 @@ import { z } from 'zod';
 // Schema for creating a new review
 export const createReviewSchema = z.object({
   title: z.string().min(1, 'Title is required').max(100, 'Title must be less than 100 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters').max(500, 'Description must be less than 500 characters'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(500, 'Description must be less than 500 characters'),
   rating: z.number().min(1, 'Rating must be at least 1').max(5, 'Rating must be at most 5'),
   productId: z.string().min(1, 'Product ID is required'),
 });

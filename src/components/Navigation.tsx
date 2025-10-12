@@ -44,7 +44,9 @@ export default function Navigation({ session }: { session: Session | null }) {
             !isReviewsPage ? 'animate-pulse' : ''
           }`}
         >
-          <Link className="text-center" href="/reviews">Reviews Forum</Link>
+          <Link className="text-center" href="/reviews">
+            Reviews Forum
+          </Link>
         </div>
         <div className="relative" ref={dropdownRef}>
           {session ? (
