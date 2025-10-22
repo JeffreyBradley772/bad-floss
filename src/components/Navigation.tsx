@@ -37,7 +37,7 @@ export default function Navigation({ session }: { session: Session | null }) {
           href="/"
           className="text-2xl font-bold tracking-tight hover:text-blue-100 transition-colors"
         >
-          🦷 Floss Reviews
+          🦷 <span className="hidden sm:inline">Floss Reviews</span>
         </Link>
         <div
           className={`absolute left-1/2 -translate-x-1/2 flex justify-center text-lg font-semibold hover:text-blue-100 transition-colors ${
