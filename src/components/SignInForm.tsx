@@ -8,9 +8,7 @@ export default function SignInForm({
 }: {
   providers: Record<string, ClientSafeProvider> | null;
 }) {
-
   return (
-
     <div className="space-y-6">
       <div className="grid gap-3">
         {Object.values(providers || {}).map(

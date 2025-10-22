@@ -30,7 +30,7 @@ export default async function FulLReviewCard({ review }: { review: SerializedFlo
             height={80}
             className="rounded-lg w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] object-cover mb-2 sm:mb-0 sm:mr-4"
           />
-          
+
           <div className="flex flex-col flex-1 w-full overflow-hidden">
             <div className="flex flex-col sm:flex-row items-start sm:items-center w-full gap-1 sm:gap-2 mb-1 sm:mb-2">
               <Rating value={review.rating} readOnly>
@@ -40,13 +40,13 @@ export default async function FulLReviewCard({ review }: { review: SerializedFlo
               </Rating>
               <h1 className="text-lg sm:text-xl font-bold sm:ml-2">{review.title}</h1>
             </div>
-            
+
             <div className="mb-1 sm:mb-2 flex-1">
               <p className="text-xs sm:text-base line-clamp-3 sm:line-clamp-2">
                 {review.description}
               </p>
             </div>
-            
+
             <div className="flex flex-row justify-between w-full text-xs sm:text-sm mt-auto">
               <h1>{review.user?.name?.split(' ')[0]}</h1>
               <h1>{formattedDate}</h1>

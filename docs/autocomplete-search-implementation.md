@@ -25,19 +25,19 @@ import { useState, useEffect } from 'react';
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
-  
+
   useEffect(() => {
     // Set a timeout to update the debounced value after the specified delay
     const timer = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-    
+
     // Clear the timeout if the value changes before the delay has passed
     return () => {
       clearTimeout(timer);
     };
   }, [value, delay]);
-  
+
   return debouncedValue;
 }
 ```
@@ -56,18 +56,18 @@ const prisma = new PrismaClient();
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('query') || '';
-  
+
   // Only search if the query is at least 2 characters long
   if (query.length < 2) {
     return NextResponse.json([]);
   }
-  
+
   const results = await prisma.flossProduct.findMany({
     where: {
       OR: [
         { name: { contains: query, mode: 'insensitive' } },
         { brand: { contains: query, mode: 'insensitive' } },
-      ]
+      ],
     },
     select: {
       id: true,
@@ -76,7 +76,7 @@ export async function GET(request: Request) {
     },
     take: 10, // Limit results to improve performance
   });
-  
+
   return NextResponse.json(results);
 }
 ```
@@ -104,16 +104,20 @@ interface AutocompleteProps {
   label?: string;
 }
 
-export default function Autocomplete({ onSelect, placeholder = 'Search...', label }: AutocompleteProps) {
+export default function Autocomplete({
+  onSelect,
+  placeholder = 'Search...',
+  label,
+}: AutocompleteProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  
+
   const debouncedQuery = useDebounce(query, 300); // 300ms delay
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Handle outside clicks to close the dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -121,20 +125,20 @@ export default function Autocomplete({ onSelect, placeholder = 'Search...', labe
         setIsOpen(false);
       }
     }
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  
+
   // Fetch search results when the debounced query changes
   useEffect(() => {
     if (debouncedQuery.length < 2) {
       setResults([]);
       return;
     }
-    
+
     const searchProducts = async () => {
       setIsLoading(true);
       try {
@@ -148,28 +152,26 @@ export default function Autocomplete({ onSelect, placeholder = 'Search...', labe
         setIsLoading(false);
       }
     };
-    
+
     searchProducts();
   }, [debouncedQuery]);
-  
+
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) return;
-    
+
     // Arrow down
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setHighlightedIndex(prev => 
-        prev < results.length - 1 ? prev + 1 : prev
-      );
+      setHighlightedIndex(prev => (prev < results.length - 1 ? prev + 1 : prev));
     }
-    
+
     // Arrow up
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setHighlightedIndex(prev => prev > 0 ? prev - 1 : 0);
+      setHighlightedIndex(prev => (prev > 0 ? prev - 1 : 0));
     }
-    
+
     // Enter
     if (e.key === 'Enter' && highlightedIndex >= 0) {
       e.preventDefault();
@@ -178,32 +180,28 @@ export default function Autocomplete({ onSelect, placeholder = 'Search...', labe
         handleSelect(selected);
       }
     }
-    
+
     // Escape
     if (e.key === 'Escape') {
       setIsOpen(false);
     }
   };
-  
+
   const handleSelect = (item: SearchResult) => {
     onSelect(item.brand);
     setQuery(item.brand);
     setIsOpen(false);
   };
-  
+
   return (
     <div className="relative" ref={containerRef}>
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          {label}
-        </label>
-      )}
-      
+      {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
+
       <div className="relative">
         <input
           type="text"
           value={query}
-          onChange={(e) => {
+          onChange={e => {
             setQuery(e.target.value);
             setIsOpen(true);
           }}
@@ -212,14 +210,14 @@ export default function Autocomplete({ onSelect, placeholder = 'Search...', labe
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
           placeholder={placeholder}
         />
-        
+
         {isLoading && (
           <div className="absolute right-3 top-3">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
           </div>
         )}
       </div>
-      
+
       {isOpen && (
         <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
           {results.length > 0 ? (
@@ -238,11 +236,8 @@ export default function Autocomplete({ onSelect, placeholder = 'Search...', labe
               ))}
             </ul>
           ) : (
-            debouncedQuery.length >= 2 && !isLoading && (
-              <div className="px-4 py-2 text-sm text-gray-500">
-                No results found
-              </div>
-            )
+            debouncedQuery.length >= 2 &&
+            !isLoading && <div className="px-4 py-2 text-sm text-gray-500">No results found</div>
           )}
         </div>
       )}
@@ -260,28 +255,28 @@ import Autocomplete from '@/components/Autocomplete';
 
 export default function CreateReviewForm() {
   const [selectedBrand, setSelectedBrand] = useState('');
-  
+
   // Form submission logic
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Process form data including selectedBrand
     // ...
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       {/* Other form fields */}
-      
+
       <div className="mb-4">
-        <Autocomplete 
+        <Autocomplete
           label="Floss Brand"
           placeholder="Start typing to search brands..."
           onSelect={setSelectedBrand}
         />
       </div>
-      
+
       {/* More form fields */}
-      
+
       <button type="submit" className="btn-primary">
         Submit
       </button>
